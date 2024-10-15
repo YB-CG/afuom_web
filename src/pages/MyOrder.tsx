@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../app/store';
 import { fetchOrderHistory, Order } from '../services/order/orderSlice';
 import Loader from '../components/Loader';
+import OrderReportGenerator from './OrderReportGenerator';
+import { ShoppingBag, Calendar, CreditCard } from 'lucide-react';
 
 const MyOrdersPage: React.FC = () => {
   const dispatch = useDispatch();
@@ -13,17 +15,23 @@ const MyOrdersPage: React.FC = () => {
   }, [dispatch]);
 
   if (loading) return <Loader />;
-  if (error) return <div className="text-red-600">{error}</div>;
+  if (error) return <div className="text-red-500 text-center py-8">{error}</div>;
 
   return (
-    <div className="bg-gray-100 min-h-screen py-12">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h1 className="text-3xl font-extrabold text-gray-900 mb-8">My Orders</h1>
+    <div className="bg-white min-h-screen">
+      <div className="container mx-auto px-4 py-8">
+        <div className="flex justify-between items-center mb-8">
+          <h1 className="text-3xl font-bold text-gray-800">My Orders</h1>
+          <OrderReportGenerator />
+        </div>
         {orders.length === 0 ? (
-          <p className="text-xl text-gray-600">You haven't placed any orders yet.</p>
+          <div className="bg-gray-50 rounded-lg p-8 text-center">
+            <ShoppingBag className="w-16 h-16 text-green-500 mx-auto mb-4" />
+            <p className="text-xl text-gray-600">You haven't placed any orders yet.</p>
+          </div>
         ) : (
-          <div className="space-y-8">
-            {orders.map((order: Order) => (
+          <div className="space-y-6">
+       {orders.map((order: Order) => (
               <div key={order.id} className="bg-white shadow-lg rounded-lg overflow-hidden">
                 <div className="px-6 py-4 bg-green-600">
                   <div className="flex justify-between items-center">
